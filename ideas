@@ -1,0 +1,22 @@
+// fetch("./dino.json")
+//   .then(response => {
+//     return response.json();
+//   })
+//   .then(data => console.log(data));
+
+// var json = [];
+// fetch('./dino.json').then(response => json = response.json());
+// console.log(json);
+
+// fetch('./dino.json')
+//   .then((response) => response.json())
+//   .then(function(data) {
+//     let dinos = data.results;
+//     // return dinos;
+//     console.log(dinos);
+//   });
+
+//  fetch ('dino.json')
+//  .then(x => x.json())
+  // .then(x => x.text())
+//  .then(y => document.getElementById("dino-compare").innerHTML = y);
