@@ -155,9 +155,12 @@ var dinos = [
         human.humanDiet = document.getElementById('diet').value;
         // document.getElementById('dino-compare').style.display = "none";
         // alert(human.weightComparison(triceratops.species,triceratops.weight));
-        document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.weightComparison(triceratops.species,triceratops.weight) + '</p>');
-        document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.heightComparison(triceratops.species,triceratops.height) + '</p>');
-        document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.dietComparison(triceratops.species,triceratops.diet) + '</p>');
+
+        // document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.weightComparison(triceratops.species,triceratops.weight) + '</p>');
+        // document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.heightComparison(triceratops.species,triceratops.height) + '</p>');
+        // document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.dietComparison(triceratops.species,triceratops.diet) + '</p>');
+
+        makeTiles(this.dinos);
       };
     })());
 
@@ -177,8 +180,13 @@ var dinos = [
 
 
     // Generate Tiles for each Dino in Array
+    function makeTiles(dinos) {
+      dinos.forEach(function (dino) {
+        console.log(dino.height);
+      });
+    }
 
-        // Add tiles to DOM
+    // Add tiles to DOM
 
     // Remove form from screen
 
