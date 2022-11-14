@@ -1,6 +1,3 @@
-//import dino.JSON
-// var json = JSON.parse(fs.readFileSync('./dino.json').toString());
-
 var dinos = [
         {
             "species": "Triceratops",
@@ -78,20 +75,23 @@ var dinos = [
 
 
 
-    // Create Dino Constructor
+    // Dino Class with Constructor
 
-    function Dino (species, weight, height, diet, where, when, fact){
-      this.species = species;
-      this.weight = weight;
-      this.height = height;
-      this.diet = diet;
-      this.where = where;
-      this.when = when;
-      this.fact = fact
-    };
+    class Dino {
+      constructor(species, weight, height, diet, where, when, fact){
+        this.species = species;
+        this.weight = weight;
+        this.height = height;
+        this.diet = diet;
+        this.where = where;
+        this.when = when;
+        this.fact = fact
+      }
+    }
 
 
     // Create Dino Objects
+    // Unnecessary - only done because it was asked for
     var triceratops = new Dino (dinos[0].species, dinos[0].weight, dinos[0].height, dinos[0].diet, dinos[0].where, dinos[0].when, dinos[0].fact);
     var tyrannosaurus = new Dino (dinos[1].species, dinos[1].weight, dinos[1].height, dinos[1].diet, dinos[1].where, dinos[1].when, dinos[1].fact);
     var anklyosaurus = new Dino (dinos[2].species, dinos[2].weight, dinos[2].height, dinos[2].diet, dinos[2].where, dinos[2].when, dinos[2].fact);
@@ -142,9 +142,15 @@ var dinos = [
       }
     };
 
-    // Use IIFE to get human data from form
+    function humanToDino(human) {
+      var humanDino = new Dino (human.humanName, human.humanWeight, (human.humanHeightFeet*12+human.humanHeightInches*1), human.humanDiet, "Earth", "today", "");
+      return humanDino;
+    }
 
     var button = document.getElementById('btn');
+
+    // Use IIFE to get human data from form
+    // On button click, prepare and display infographic
 
     button.addEventListener('click', (function() {
       return function() {
@@ -153,42 +159,80 @@ var dinos = [
         human.humanHeightInches = document.getElementById('inches').value;
         human.humanWeight = document.getElementById('weight').value;
         human.humanDiet = document.getElementById('diet').value;
-        // document.getElementById('dino-compare').style.display = "none";
-        // alert(human.weightComparison(triceratops.species,triceratops.weight));
-
-        // document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.weightComparison(triceratops.species,triceratops.weight) + '</p>');
-        // document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.heightComparison(triceratops.species,triceratops.height) + '</p>');
-        // document.getElementById('grid').insertAdjacentHTML("beforeend", '<p>' + human.dietComparison(triceratops.species,triceratops.diet) + '</p>');
-
-        makeTiles(this.dinos);
+        // Remove form from screen
+        document.getElementById('dino-compare').style.display = "none";
+        makeTiles();
       };
     })());
 
 
     // Create Dino Compare Method 1
     // NOTE: Weight in JSON file is in lbs, height in inches.
-    // alert("haha");
-    // alert(human.weightComparison(123));
+    // is inside of the human object
 
 
     // Create Dino Compare Method 2
     // NOTE: Weight in JSON file is in lbs, height in inches.
+    // is inside of the human object
 
 
     // Create Dino Compare Method 3
     // NOTE: Weight in JSON file is in lbs, height in inches.
-
+    // is inside of the human object
 
     // Generate Tiles for each Dino in Array
-    function makeTiles(dinos) {
+    function makeTiles() {
+      dinos.splice(4, 0, humanToDino(human));
       dinos.forEach(function (dino) {
-        console.log(dino.height);
+        let dinoTile = document.createElement('div');
+        dinoTile.classList.add('grid-item');
+
+        let dName = document.createElement('h2');
+        dName.innerHTML = dino.species;
+        dinoTile.appendChild(dName);
+
+        let dImage = document.createElement('img');
+        if (dino.fact=="") {
+          dImage.src = "images/human.png";
+        } else {
+          dImage.src = "images/" + dino.species.toLowerCase() + ".png";
+        }
+        dinoTile.appendChild(dImage);
+
+        let dFact = document.createElement('p');
+        switch (dino.species) {
+          case 'Triceratops':
+            dFact.innerHTML = dino.fact;
+            break;
+          case 'Tyrannosaurus Rex':
+            dFact.innerHTML = dino.where;
+            break;
+          case 'Anklyosaurus':
+            dFact.innerHTML = dino.when;
+            break;
+          case 'Brachiosaurus':
+            dFact.innerHTML = human.weightComparison(dino.species,dino.weight);
+            break;
+          case 'Stegosaurus':
+            dFact.innerHTML = human.heightComparison(dino.species,dino.height);
+            break;
+          case 'Elasmosaurus':
+            dFact.innerHTML = human.dietComparison(dino.species,dino.diet);
+            break;
+          case 'Pteranodon':
+            dFact.innerHTML = dino.fact;
+            break;
+          case 'Pigeon':
+            dFact.innerHTML = "All birds are Dinosaurs.";
+            break;
+          default:
+            dFact.innerHTML = "";
+        }
+        if (dFact.innerHTML != "") {
+          dinoTile.appendChild(dFact);
+        }
+
+        // Add tiles to DOM
+        document.getElementById('grid').appendChild(dinoTile);
       });
     }
-
-    // Add tiles to DOM
-
-    // Remove form from screen
-
-
-// On button click, prepare and display infographic
